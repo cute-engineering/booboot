@@ -1,0 +1,16 @@
+{
+    "$schema": "https://schemas.cute.engineering/stable/cutekit.manifest.project.v1",
+    "id": "cute-engineering/booboot",
+    "type": "project",
+    "description": "The scawy bootloadew",
+    "extern": {
+        "cute-engineering/ce-base": {
+            "git": "https://github.com/cute-engineering/ce-base.git",
+            "tag": "v0.1.0"
+        },
+        "cute-engineering/ce-efi": {
+            "git": "https://github.com/cute-engineering/ce-efi.git",
+            "tag": "main"
+        }
+    }
+}
