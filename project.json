@@ -4,12 +4,20 @@
     "type": "project",
     "description": "The scawy bootloadew",
     "extern": {
-        "cute-engineering/ce-base": {
-            "git": "https://github.com/cute-engineering/ce-base.git",
-            "tag": "v0.1.0"
+        "cute-engineering/tiny-efi": {
+            "git": "https://github.com/cute-engineering/tiny-efi",
+            "tag": "main"
         },
-        "cute-engineering/ce-efi": {
-            "git": "https://github.com/cute-engineering/ce-efi.git",
+        "cute-engineering/ce-libc": {
+            "git": "https://github.com/cute-engineering/ce-libc",
+            "tag": "main"
+        },
+        "cute-engineering/tiny-json": {
+            "git": "https://github.com/cute-engineering/tiny-json.git",
+            "tag": "main"
+        },
+        "cute-engineering/handover": {
+            "git": "https://github.com/cute-engineering/handover.git",
             "tag": "main"
         }
     }

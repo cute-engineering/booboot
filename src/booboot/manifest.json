@@ -9,7 +9,9 @@
         ]
     },
     "requires": [
-        "ce-efi",
-        "ce-base"
+        "tiny-efi",
+        "tiny-json",
+        "logging",
+        "handover"
     ]
 }
