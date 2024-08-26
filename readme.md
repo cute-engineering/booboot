@@ -6,7 +6,7 @@
 </p>
 <h1 align="center">BooBoot</h1>
 <p align="center">
-    The Scawy Bootloadew
+    The Mischievous Bootloader
 </p>
 <br/>
 <br/>
