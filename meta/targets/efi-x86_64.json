@@ -8,7 +8,8 @@
         "sys": "efi",
         "abi": "ms",
         "freestanding": false,
-        "host": false
+        "host": false,
+        "filename": "bootx64.efi"
     },
     "tools": {
         "cc": {
