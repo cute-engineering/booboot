@@ -23,3 +23,5 @@
 #define align_up$(x, align) (((x) + (align) - 1) & ~((align) - 1))
 
 #define align_down$(x, align) ((x) & ~((align) - 1))
+
+uintptr_t uefi_find_rsdp(void);

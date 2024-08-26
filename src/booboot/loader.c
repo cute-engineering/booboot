@@ -11,13 +11,7 @@ size_t _ehdr_size = 0;
 
 uintptr_t load_binary(char const *_Nonnull path)
 {
-    uint16_t lpath[256] = {0};
-    for (size_t i = 0; i < strlen(path); i++)
-    {
-        lpath[i] = path[i];
-    }
-
-    char *_Nonnull hdr = efi_read_file(lpath, &_ehdr_size);
+    char *_Nonnull hdr = efi_read_file(path, &_ehdr_size);
     _ehdr = hdr;
 
     char magic[4] = {hdr[EI_MAG0], hdr[EI_MAG1], hdr[EI_MAG2], hdr[EI_MAG3]};

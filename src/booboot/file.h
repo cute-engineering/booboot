@@ -9,4 +9,4 @@ EfiSfsp *_Nonnull efi_rootfs(void);
 
 EfiFp *_Nonnull efi_rootdir(void);
 
-char *_Nonnull efi_read_file(uint16_t *_Nonnull path, size_t *_Nullable len);
+char *_Nonnull efi_read_file(char const *_Nonnull path, size_t *_Nullable len);

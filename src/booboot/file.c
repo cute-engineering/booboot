@@ -60,17 +60,21 @@ EfiFp *_Nonnull efi_rootdir(void)
     return _rootdir;
 }
 
-char *_Nonnull efi_read_file(uint16_t *_Nonnull path, size_t *_Nullable len)
+char *_Nonnull efi_read_file(char const *_Nonnull path, size_t *_Nullable len)
 {
     EfiFp *file;
+    uint16_t lpath[256] = {0};
+    for (size_t i = 0; i < strlen(path); i++)
+    {
+        lpath[i] = path[i];
+    }
 
     EfiStatus status =
-        efi_rootdir()->open(efi_rootdir(), &file, path, EFI_FILE_MODE_READ, EFI_FILE_READ_ONLY);
+        efi_rootdir()->open(efi_rootdir(), &file, lpath, EFI_FILE_MODE_READ, EFI_FILE_READ_ONLY);
 
     if (status != EFI_SUCCESS)
     {
-        error$("failed to open file: ");
-        efi_console_write(path);
+        error$("failed to open file: %s", path);
         for (;;)
         {
             __asm__("hlt");
