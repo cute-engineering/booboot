@@ -38,7 +38,7 @@ EfiStatus efi_main(EfiHandle handle, EfiSystemTable *st)
     efi_console_clear();
     efi_console_reset();
 
-    info$("booting from Booboot...");
+    debug$("booting from Booboot...");
 
     char *_Nonnull cfg = efi_read_file("loader.json", NULL);
     efi_assert_success(config_parse(cfg));

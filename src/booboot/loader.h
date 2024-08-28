@@ -9,4 +9,4 @@ size_t ehdr_len(void);
 
 uintptr_t load_binary(char const *_Nonnull path);
 
-void *_Nonnull load_section(char const *_Nonnull name);
+void *_Nullable load_section(char const *_Nonnull name);

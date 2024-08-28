@@ -86,7 +86,7 @@ size_t ehdr_len(void)
     return _ehdr_size;
 }
 
-void *_Nonnull load_section(char const *_Nonnull name)
+void *_Nullable load_section(char const *_Nonnull name)
 {
     bool found = false;
     if (_ehdr == NULL)
@@ -121,11 +121,8 @@ void *_Nonnull load_section(char const *_Nonnull name)
 
         if (!found)
         {
-            error$("section %s not found", name);
-            for (;;)
-            {
-                __asm__("hlt");
-            }
+            warn$("section %s not found", name);
+            return NULL;
         }
     }
     else
