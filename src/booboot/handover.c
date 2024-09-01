@@ -64,13 +64,13 @@ void handover_apply(uintptr_t entry, uintptr_t stack)
             },
         });
 
-    size_t size;
+    size_t desc_count;
     size_t desc_size;
-    EfiMemoryDescriptor *memory_map = efi_mmap_snapshot(&size, &desc_size);
+    EfiMemoryDescriptor *desc = efi_mmap_snapshot(&desc_count, &desc_size);
 
-    for (size_t i = 0; i < (size / desc_size); i++)
+    for (size_t i = 0; i < desc_count; i++)
     {
-        EfiMemoryDescriptor *desc = (EfiMemoryDescriptor *)((uintptr_t)memory_map + i * desc_size);
+        desc = (EfiMemoryDescriptor *)((uintptr_t)desc + desc_size);
         HandoverRecord record;
 
         switch (desc->type)
@@ -81,34 +81,38 @@ void handover_apply(uintptr_t entry, uintptr_t stack)
         case EFI_BOOT_SERVICES_DATA:
         case EFI_RUNTIME_SERVICES_CODE:
         case EFI_RUNTIME_SERVICES_DATA:
+        case EFI_ACPI_RECLAIM_MEMORY:
         {
+            debug$("LOADER: %llx -> %llx", desc->physical_start, desc->physical_start + (desc->num_pages * PAGE_SIZE));
             record = (HandoverRecord){
                 .tag = HANDOVER_LOADER,
                 .flags = 0,
                 .start = desc->physical_start,
-                .size = desc->num_pages * PAGE_SIZE,
+                .size = desc->num_pages << 12,
             };
             break;
         }
 
         case EFI_CONVENTIONAL_MEMORY:
         {
+            debug$("FREE: %llx -> %llx", desc->physical_start, desc->physical_start + (desc->num_pages * PAGE_SIZE));
             record = (HandoverRecord){
                 .tag = HANDOVER_FREE,
                 .flags = 0,
                 .start = desc->physical_start,
-                .size = desc->num_pages * PAGE_SIZE,
+                .size = desc->num_pages << 12,
             };
             break;
         }
 
         default:
         {
+            debug$("RESERVED: %llx -> %llx", desc->physical_start, desc->physical_start + (desc->num_pages * PAGE_SIZE));
             record = (HandoverRecord){
                 .tag = HANDOVER_RESERVED,
                 .flags = 0,
                 .start = desc->physical_start,
-                .size = desc->num_pages * PAGE_SIZE,
+                .size = desc->num_pages << 12,
             };
             break;
         }
