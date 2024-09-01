@@ -2,10 +2,16 @@
 #define STB_SPRINTF_NOFLOAT
 
 #include "mod.h"
+#include "../booboot/config.h"
 #include "stb_sprintf.h"
 
 void log_impl(int level, char const *_Nonnull fmt, ...)
 {
+    if (level == LOG_DEBUG && !is_verbose())
+    {
+        return;
+    }
+
     va_list args;
     va_start(args, fmt);
 

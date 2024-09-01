@@ -66,7 +66,7 @@ char *_Nonnull efi_read_file(char const *_Nonnull path, size_t *_Nullable len)
     uint16_t lpath[256] = {0};
     for (size_t i = 0; i < strlen(path); i++)
     {
-        lpath[i] = path[i];
+        lpath[i] = path[i] == '/' ? '\\' : path[i];
     }
 
     EfiStatus status =

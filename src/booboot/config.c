@@ -5,6 +5,7 @@
 
 static json_t entries;
 static Entry _selected_entry;
+static bool _verbose;
 
 void *_Nonnull _json_realloc(void *_Nullable ptr, size_t size)
 {
@@ -81,7 +82,7 @@ EfiStatus config_entry(size_t index)
     }
 
     json_t raw_cmdline = json_get(raw_entry, "cmdline");
-    if (raw_cmdline.type != JSON_STRING)
+    if (raw_cmdline.type != JSON_STRING && !(raw_cmdline.type == JSON_ERROR && raw_cmdline.number == JSON_KEY_NOT_FOUND))
     {
         error$("invalid cmdline in config, cmdline must be a string");
         return EFI_PROTOCOL_ERROR;
@@ -90,9 +91,25 @@ EfiStatus config_entry(size_t index)
     json_t raw_modules = json_get(raw_entry, "modules");
     if (raw_modules.type != JSON_ARRAY)
     {
-        error$("invalid modules in config, modules must be an array");
+        if (raw_modules.type == JSON_ERROR && raw_modules.number == JSON_KEY_NOT_FOUND)
+        {
+            raw_modules.array.len = 0;
+        }
+        else
+        {
+            error$("invalid modules in config, modules must be an array");
+            return EFI_PROTOCOL_ERROR;
+        }
+    }
+
+    json_t raw_verbose = json_get(raw_entry, "verbose");
+    if (raw_verbose.type != JSON_BOOL && !(raw_verbose.type == JSON_ERROR && raw_verbose.number == JSON_KEY_NOT_FOUND))
+    {
+        error$("invalid verbose in config, verbose must be a boolean");
         return EFI_PROTOCOL_ERROR;
     }
+
+    _verbose = raw_verbose.type == JSON_BOOL ? (bool)raw_verbose.number : false;
 
     for (size_t i = 0; i < raw_modules.array.len; i++)
     {
@@ -118,4 +135,9 @@ EfiStatus config_entry(size_t index)
 Entry selected_entry(void)
 {
     return _selected_entry;
+}
+
+bool is_verbose(void)
+{
+    return _verbose;
 }

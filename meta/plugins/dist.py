@@ -11,8 +11,6 @@ def _(args: model.TargetArgs):
 
     for target in registry.iter(model.Target):
         scope = builder.TargetScope(registry, target)
-        target.props["debug"] = "debug" in args.mixins
-
         shell.cp(
             builder.build(scope, component)[0].path,
             str(dist / target.props["filename"]),

@@ -19,3 +19,5 @@ EfiStatus config_entry(size_t index);
 size_t config_entries_count(void);
 
 Entry selected_entry(void);
+
+bool is_verbose(void);
